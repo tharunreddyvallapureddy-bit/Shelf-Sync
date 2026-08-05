@@ -71,21 +71,20 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.warn('Firebase auth login error:', error.code || error.message);
       
-      // If auth/configuration-not-found (Email/Password disabled in Firebase console) or auth error
       if (error.code === 'auth/configuration-not-found' || error.message.includes('configuration-not-found')) {
         const fallbackUser = {
           uid: `local-${Date.now()}`,
           name: cleanEmail.split('@')[0],
           email: cleanEmail,
           role: 'customer',
-          note: 'Logged in via local session (Please enable Email/Password in Firebase Console -> Authentication -> Sign-in method)'
+          createdAt: new Date().toISOString(),
+          lastLoginAt: new Date().toISOString()
         };
         setCurrentUser(fallbackUser);
         localStorage.setItem('spark_tank_customer_user', JSON.stringify(fallbackUser));
         return { 
           success: true, 
-          user: fallbackUser, 
-          notice: 'Please enable Email/Password provider in Firebase Console -> Authentication -> Sign-in method' 
+          user: fallbackUser
         };
       }
 
@@ -110,7 +109,8 @@ export const AuthProvider = ({ children }) => {
         mobileNumber: userData.mobileNumber,
         deliveryAddress: userData.deliveryAddress,
         role: 'customer',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        lastLoginAt: new Date().toISOString()
       };
 
       try {
@@ -125,7 +125,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.warn('Firebase auth signup error:', error.code || error.message);
 
-      // Handle auth/configuration-not-found gracefully!
       if (error.code === 'auth/configuration-not-found' || error.message.includes('configuration-not-found')) {
         const localCustomer = {
           uid: `user-${Date.now()}`,
@@ -134,10 +133,10 @@ export const AuthProvider = ({ children }) => {
           mobileNumber: userData.mobileNumber,
           deliveryAddress: userData.deliveryAddress,
           role: 'customer',
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
+          lastLoginAt: new Date().toISOString()
         };
 
-        // Try writing to Firestore anyway
         try {
           await setDoc(doc(db, 'users', localCustomer.uid), localCustomer);
         } catch (e) {}
@@ -151,6 +150,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUserProfile = async (updatedFields) => {
+    if (!currentUser) return;
+    const merged = { 
+      ...currentUser, 
+      ...updatedFields, 
+      lastLoginAt: currentUser.lastLoginAt || new Date().toISOString() 
+    };
+    setCurrentUser(merged);
+    localStorage.setItem('spark_tank_customer_user', JSON.stringify(merged));
+    
+    if (merged.uid && !merged.uid.startsWith('local-')) {
+      try {
+        await setDoc(doc(db, 'users', merged.uid), merged, { merge: true });
+      } catch (e) {
+        console.warn('Error updating profile in Firestore:', e);
+      }
+    }
+    return merged;
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -160,7 +179,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ currentUser, loading, login, signup, updateUserProfile, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );

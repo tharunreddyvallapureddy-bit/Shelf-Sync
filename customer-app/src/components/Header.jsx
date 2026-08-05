@@ -5,12 +5,13 @@ import {
   ChevronDown, 
   Zap, 
   LogOut, 
-  LogIn 
+  LogIn,
+  User
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 
-export const Header = ({ onOpenLocationModal, onOpenAuth }) => {
+export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
   const { 
     stores, 
     selectedStoreId, 
@@ -111,7 +112,7 @@ export const Header = ({ onOpenLocationModal, onOpenAuth }) => {
             </div>
           </div>
 
-          {/* Right Controls: Auth Only */}
+          {/* Right Controls: Auth & User Profile */}
           <div className="flex items-center gap-3">
             {currentUser ? (
               <div className="relative">
@@ -119,19 +120,34 @@ export const Header = ({ onOpenLocationModal, onOpenAuth }) => {
                   onClick={() => setShowUserDropdown(!showUserDropdown)}
                   className="flex items-center gap-2 p-1.5 pr-3 rounded-2xl bg-white border border-slate-200 text-xs font-bold text-slate-800 hover:bg-slate-50 transition"
                 >
-                  <div className="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-xs">
-                    {currentUser.name ? currentUser.name.charAt(0) : 'U'}
-                  </div>
+                  {currentUser.photoUrl ? (
+                    <img src={currentUser.photoUrl} alt="Avatar" className="w-7 h-7 rounded-xl object-cover" />
+                  ) : (
+                    <div className="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-xs">
+                      {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                  )}
                   <span className="max-w-[90px] truncate hidden md:inline">{currentUser.name || 'User'}</span>
                   <ChevronDown className="w-3 h-3 text-slate-400" />
                 </button>
 
                 {showUserDropdown && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 z-50 space-y-2 animate-fadeIn">
+                  <div className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 z-50 space-y-2 animate-fadeIn">
                     <div className="pb-2 border-b border-slate-100">
                       <span className="font-extrabold text-xs text-slate-900 block">{currentUser.name}</span>
                       <span className="text-[11px] text-slate-400 block truncate">{currentUser.email}</span>
                     </div>
+
+                    <button
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        if (onOpenProfile) onOpenProfile();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-emerald-50 text-emerald-700 text-xs font-bold transition"
+                    >
+                      <User className="w-4 h-4" />
+                      My Account & Profile
+                    </button>
 
                     <button
                       onClick={() => {
