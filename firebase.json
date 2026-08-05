@@ -1,0 +1,37 @@
+{
+  "hosting": [
+    {
+      "target": "customer",
+      "public": "customer-app/dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "owner",
+      "public": "owner-app/dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}
