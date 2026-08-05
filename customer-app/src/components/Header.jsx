@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { 
   Store, 
   MapPin, 
-  ShoppingBag, 
   ChevronDown, 
   Zap, 
   LogOut, 
@@ -11,21 +10,18 @@ import {
 import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 
-export const Header = ({ onOpenLocationModal, onOpenCart, onOpenAuth }) => {
+export const Header = ({ onOpenLocationModal, onOpenAuth }) => {
   const { 
     stores, 
     selectedStoreId, 
     setSelectedStoreId, 
     selectedStore, 
-    userLocation, 
-    cart 
+    userLocation 
   } = useApp();
 
   const { currentUser, logout } = useAuth();
   const [showStoreDropdown, setShowStoreDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
-
-  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <header className="sticky top-0 z-40 glass-header shadow-sm">
@@ -115,24 +111,8 @@ export const Header = ({ onOpenLocationModal, onOpenCart, onOpenAuth }) => {
             </div>
           </div>
 
-          {/* Right Controls: Cart & Auth */}
+          {/* Right Controls: Auth Only */}
           <div className="flex items-center gap-3">
-            
-            {/* Cart Icon */}
-            <button
-              onClick={onOpenCart}
-              className="relative flex items-center justify-center p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition"
-            >
-              <ShoppingBag className="w-4 h-4" />
-              <span className="hidden sm:inline ml-1.5">Cart</span>
-              {cartCount > 0 && (
-                <span className="ml-1.5 px-1.5 py-0.5 rounded-full bg-amber-400 text-slate-900 font-extrabold text-[11px]">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-
-            {/* Auth Account Button */}
             {currentUser ? (
               <div className="relative">
                 <button
@@ -169,13 +149,12 @@ export const Header = ({ onOpenLocationModal, onOpenCart, onOpenAuth }) => {
             ) : (
               <button
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 text-white font-extrabold text-xs shadow-md transition"
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 Sign In
               </button>
             )}
-
           </div>
 
         </div>
