@@ -1,0 +1,11 @@
+{
+  "name": "sparkstock-platform",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev:customer": "cd customer-app && npm run dev",
+    "dev:owner": "cd owner-app && npm run dev",
+    "build:customer": "cd customer-app && npm run build",
+    "build:owner": "cd owner-app && npm run build"
+  }
+}
