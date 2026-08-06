@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ChevronDown, LogOut, LogIn } from 'lucide-react';
+import { ChevronDown, LogOut, LogIn, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-export const Header = ({ onOpenAuth }) => {
+export const Header = ({ onOpenAuth, onOpenProfile }) => {
   const { currentUser, logout } = useAuth();
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
@@ -36,9 +36,13 @@ export const Header = ({ onOpenAuth }) => {
                   onClick={() => setShowUserDropdown(!showUserDropdown)}
                   className="flex items-center gap-2 p-1.5 pr-3 rounded-2xl bg-slate-800 border border-slate-700 text-xs font-bold text-white hover:bg-slate-700 transition"
                 >
-                  <div className="w-7 h-7 rounded-xl bg-emerald-950 text-emerald-300 font-extrabold flex items-center justify-center text-xs">
-                    {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'S'}
-                  </div>
+                  {currentUser.photoUrl ? (
+                    <img src={currentUser.photoUrl} alt="Avatar" className="w-7 h-7 rounded-xl object-cover" />
+                  ) : (
+                    <div className="w-7 h-7 rounded-xl bg-emerald-950 text-emerald-300 font-extrabold flex items-center justify-center text-xs">
+                      {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'S'}
+                    </div>
+                  )}
                   <span className="max-w-[100px] truncate hidden md:inline">{currentUser.name || 'Shop Owner'}</span>
                   <ChevronDown className="w-3 h-3 text-slate-400" />
                 </button>
@@ -52,6 +56,17 @@ export const Header = ({ onOpenAuth }) => {
                         {currentUser.shopName || 'Shop Manager'}
                       </span>
                     </div>
+
+                    <button
+                      onClick={() => {
+                        setShowUserDropdown(false);
+                        if (onOpenProfile) onOpenProfile();
+                      }}
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-emerald-950 text-emerald-400 text-xs font-bold transition"
+                    >
+                      <User className="w-4 h-4" />
+                      My Account & Profile
+                    </button>
 
                     <button
                       onClick={() => {

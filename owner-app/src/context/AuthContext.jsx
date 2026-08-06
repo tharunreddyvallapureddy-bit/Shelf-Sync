@@ -110,7 +110,6 @@ export const AuthProvider = ({ children }) => {
           await setDoc(doc(db, 'stores', fallbackOwner.storeId), storeProfile);
         } catch (e) {}
 
-        // Broadcast to LocalStorage so Customer App sees it
         const currentLocalStores = JSON.parse(localStorage.getItem('spark_tank_stores') || '[]');
         const updatedStores = [storeProfile, ...currentLocalStores.filter(s => s.id !== storeProfile.id)];
         localStorage.setItem('spark_tank_stores', JSON.stringify(updatedStores));
@@ -171,7 +170,6 @@ export const AuthProvider = ({ children }) => {
         await setDoc(doc(db, 'stores', storeId), storeProfile);
       } catch (e) {}
 
-      // Broadcast store to LocalStorage so Customer App picks it up instantly
       const currentLocalStores = JSON.parse(localStorage.getItem('spark_tank_stores') || '[]');
       const updatedStores = [storeProfile, ...currentLocalStores.filter(s => s.id !== storeProfile.id)];
       localStorage.setItem('spark_tank_stores', JSON.stringify(updatedStores));
@@ -228,6 +226,44 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUserProfile = async (updatedData) => {
+    if (!currentUser) return { success: false, message: 'No authenticated user' };
+
+    const mergedUser = {
+      ...currentUser,
+      ...updatedData
+    };
+
+    try {
+      await setDoc(doc(db, 'users', currentUser.uid), mergedUser, { merge: true });
+
+      if (currentUser.storeId) {
+        const storeDocData = {
+          name: updatedData.shopName || currentUser.shopName,
+          location: updatedData.location || currentUser.location,
+          address: updatedData.address || currentUser.address,
+          ownerName: updatedData.name || currentUser.name,
+          phone: updatedData.mobileNumber || currentUser.mobileNumber,
+          openHours: updatedData.openHours || currentUser.openHours
+        };
+        await setDoc(doc(db, 'stores', currentUser.storeId), storeDocData, { merge: true });
+
+        // Update local stores array
+        const currentLocalStores = JSON.parse(localStorage.getItem('spark_tank_stores') || '[]');
+        const updatedStores = currentLocalStores.map(s => 
+          s.id === currentUser.storeId ? { ...s, ...storeDocData } : s
+        );
+        localStorage.setItem('spark_tank_stores', JSON.stringify(updatedStores));
+      }
+    } catch (err) {
+      console.warn('Error persisting updated owner profile to Firestore:', err);
+    }
+
+    setCurrentUser(mergedUser);
+    localStorage.setItem('spark_tank_owner_user', JSON.stringify(mergedUser));
+    return { success: true, user: mergedUser };
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -237,7 +273,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ currentUser, loading, login, signup, updateUserProfile, logout }}>
       {!loading && children}
     </AuthContext.Provider>
   );
