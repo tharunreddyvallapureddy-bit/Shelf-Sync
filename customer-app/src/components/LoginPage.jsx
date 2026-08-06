@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  Zap, 
   Mail, 
   Lock, 
   User, 
@@ -90,9 +89,11 @@ export const LoginPage = () => {
 
       <div className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative z-10 space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white mx-auto shadow-xl shadow-emerald-600/30">
-            <Zap className="w-8 h-8 fill-current" />
-          </div>
+          <img 
+            src="/logo.png" 
+            alt="Cartly Logo" 
+            className="w-16 h-16 rounded-2xl object-cover mx-auto shadow-xl border border-amber-500/30" 
+          />
 
           <div>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center justify-center gap-0.5">

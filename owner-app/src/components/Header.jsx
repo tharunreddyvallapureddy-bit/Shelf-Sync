@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldAlert, ChevronDown, LogOut, LogIn } from 'lucide-react';
+import { ChevronDown, LogOut, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Header = ({ onOpenAuth }) => {
@@ -14,9 +14,11 @@ export const Header = ({ onOpenAuth }) => {
           {/* Brand Logo & Title */}
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-2 cursor-pointer">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-600/30">
-                <ShieldAlert className="w-6 h-6 fill-current" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Cartly Logo" 
+                className="w-10 h-10 rounded-xl object-cover shadow-md border border-amber-500/30" 
+              />
               <div>
                 <span className="text-xl font-extrabold tracking-tight flex items-center gap-1">
                   <span className="text-emerald-400">Cartly</span>

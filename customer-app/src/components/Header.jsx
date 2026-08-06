@@ -3,7 +3,6 @@ import {
   Store, 
   MapPin, 
   ChevronDown, 
-  Zap, 
   LogOut, 
   LogIn,
   User
@@ -32,9 +31,11 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
           {/* Brand & Store Selector */}
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-2 cursor-pointer">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-600/30">
-                <Zap className="w-6 h-6 fill-current" />
-              </div>
+              <img 
+                src="/logo.png" 
+                alt="Cartly Logo" 
+                className="w-10 h-10 rounded-xl object-cover shadow-md border border-amber-500/30" 
+              />
               <div>
                 <span className="text-xl font-extrabold tracking-tight flex items-center gap-0.5">
                   <span className="text-emerald-700">Cart</span>
