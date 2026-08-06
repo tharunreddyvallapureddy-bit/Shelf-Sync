@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
 import { Header } from './components/Header';
@@ -11,15 +11,25 @@ const MainOwnerApp = () => {
   const { currentUser } = useAuth();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
+  const isDarkMode = currentUser?.theme === 'dark';
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   // Mandatory Initial Login Flow: If not authenticated, initialize LoginPage first!
   if (!currentUser) {
     return <LoginPage />;
   }
 
-  const isDarkMode = currentUser?.theme !== 'light';
-
   return (
-    <div className={`min-h-screen transition-colors ${isDarkMode ? 'dark bg-[#030712] text-white' : 'bg-slate-900 text-white'}`}>
+    <div className={`min-h-screen transition-colors ${isDarkMode ? 'dark bg-[#030712] text-white' : 'bg-[#f4f6f8] text-slate-900'}`}>
       <Header onOpenProfile={() => setIsProfileOpen(true)} />
 
       <main className="pb-16">

@@ -10,9 +10,14 @@
 }
 
 body {
-  background-color: #0f172a;
-  color: #ffffff;
+  background-color: #f4f6f8;
+  color: #0f172a;
   min-height: 100vh;
+}
+
+body.dark, .dark body {
+  background-color: #030712 !important;
+  color: #ffffff !important;
 }
 
 .dark-glass {
@@ -20,6 +25,12 @@ body {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   color: #ffffff;
+}
+
+html:not(.dark) .dark-glass {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-bottom-color: #e2e8f0 !important;
+  color: #0f172a !important;
 }
 
 .animate-fadeIn {

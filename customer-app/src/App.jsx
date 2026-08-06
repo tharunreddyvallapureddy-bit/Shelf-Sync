@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
 import { Header } from './components/Header';
@@ -13,6 +13,18 @@ const MainCustomerApp = () => {
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
+  const isDarkMode = currentUser?.theme === 'dark';
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   // Mandatory Initial Login Flow: If not authenticated, initialize LoginPage first!
   if (!currentUser) {
     return <LoginPage />;
@@ -20,7 +32,7 @@ const MainCustomerApp = () => {
 
   return (
     <div className={`min-h-screen transition-colors ${
-      currentUser?.theme === 'dark' ? 'bg-slate-950 text-white dark' : 'bg-[#f4f6f8] text-slate-900'
+      isDarkMode ? 'dark bg-[#030712] text-white' : 'bg-[#f4f6f8] text-slate-900'
     }`}>
       <Header
         onOpenLocationModal={() => setIsLocationModalOpen(true)}
