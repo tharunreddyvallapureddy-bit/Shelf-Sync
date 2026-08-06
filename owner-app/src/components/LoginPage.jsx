@@ -113,9 +113,6 @@ export const LoginPage = () => {
               <span className="text-emerald-400">Cartly</span>
               <span className="text-amber-400 font-black">Owner</span>
             </h1>
-            <span className="text-xs uppercase font-extrabold tracking-widest text-emerald-400 block mt-0.5">
-              Shop Owner Web Application
-            </span>
           </div>
 
           <p className="text-xs text-slate-400">

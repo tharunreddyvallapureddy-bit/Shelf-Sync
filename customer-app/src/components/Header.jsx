@@ -37,12 +37,9 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
                 className="w-10 h-10 rounded-xl object-cover shadow-md border border-amber-500/30" 
               />
               <div>
-                <span className="text-xl font-extrabold tracking-tight flex items-center gap-0.5">
+                <span className="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center gap-0.5">
                   <span className="text-emerald-700">Cart</span>
                   <span className="text-amber-500 font-black">ly</span>
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-800 block -mt-1">
-                  Customer Web App
                 </span>
               </div>
             </div>

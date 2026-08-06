@@ -20,12 +20,9 @@ export const Header = ({ onOpenAuth }) => {
                 className="w-10 h-10 rounded-xl object-cover shadow-md border border-amber-500/30" 
               />
               <div>
-                <span className="text-xl font-extrabold tracking-tight flex items-center gap-1">
+                <span className="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center gap-1">
                   <span className="text-emerald-400">Cartly</span>
                   <span className="text-amber-400 font-black">Owner</span>
-                </span>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 block -mt-1">
-                  Shop Owner Web App
                 </span>
               </div>
             </div>
