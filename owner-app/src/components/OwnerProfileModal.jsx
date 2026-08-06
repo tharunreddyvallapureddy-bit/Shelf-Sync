@@ -38,12 +38,12 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
   const [saveError, setSaveError] = useState('');
 
   // Form State initialized from currentUser
-  const [name, setName] = useState(currentUser?.name || 'Rajesh Kumar');
-  const [shopName, setShopName] = useState(currentUser?.shopName || 'Ganapathi Super Market');
+  const [name, setName] = useState(currentUser?.name || '');
+  const [shopName, setShopName] = useState(currentUser?.shopName || '');
   const [photoUrl, setPhotoUrl] = useState(currentUser?.photoUrl || PRESET_AVATARS[0]);
   const [bio, setBio] = useState(currentUser?.bio || 'Leading hyperlocal superstore delivering fresh produce and daily essentials.');
-  const [email, setEmail] = useState(currentUser?.email || 'owner@ganapathisupermarket.com');
-  const [mobileNumber, setMobileNumber] = useState(currentUser?.mobileNumber || '+91 98765 43210');
+  const [email, setEmail] = useState(currentUser?.email || '');
+  const [mobileNumber, setMobileNumber] = useState(currentUser?.mobileNumber || '');
 
   // Preferences
   const [theme, setTheme] = useState(currentUser?.theme || 'dark');
@@ -116,11 +116,11 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn">
       <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
         
         {/* Header Bar */}
-        <div className="px-6 py-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/50">
+        <div className="px-6 py-5 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
           <div className="flex items-center gap-3">
             <img 
               src={photoUrl} 
@@ -129,12 +129,12 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
             />
             <div>
               <h2 className="text-lg font-black text-white flex items-center gap-2">
-                <span>{shopName}</span>
+                <span>{shopName || 'Shop Owner Account'}</span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-[10px] font-extrabold border border-emerald-800">
                   Shop Owner Profile
                 </span>
               </h2>
-              <p className="text-xs text-slate-400">Manager: {name} • {email}</p>
+              <p className="text-xs text-slate-400">Manager: {name || 'Manager'} • {email}</p>
             </div>
           </div>
 
@@ -162,10 +162,11 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
         )}
 
         {/* Tab Navigation */}
-        <div className="flex items-center border-b border-slate-800 bg-slate-950/30 px-6 overflow-x-auto">
+        <div className="flex items-center border-b border-slate-800 bg-slate-950/40 px-6 overflow-x-auto">
           <button
+            type="button"
             onClick={() => setActiveTab('identity')}
-            className={`py-3.5 px-4 text-xs font-bold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
+            className={`py-3.5 px-4 text-xs font-extrabold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
               activeTab === 'identity'
                 ? 'border-emerald-500 text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -176,8 +177,9 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => setActiveTab('preferences')}
-            className={`py-3.5 px-4 text-xs font-bold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
+            className={`py-3.5 px-4 text-xs font-extrabold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
               activeTab === 'preferences'
                 ? 'border-emerald-500 text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -188,8 +190,9 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => setActiveTab('security')}
-            className={`py-3.5 px-4 text-xs font-bold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
+            className={`py-3.5 px-4 text-xs font-extrabold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
               activeTab === 'security'
                 ? 'border-emerald-500 text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -200,8 +203,9 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
           </button>
 
           <button
+            type="button"
             onClick={() => setActiveTab('system')}
-            className={`py-3.5 px-4 text-xs font-bold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
+            className={`py-3.5 px-4 text-xs font-extrabold border-b-2 flex items-center gap-2 whitespace-nowrap transition ${
               activeTab === 'system'
                 ? 'border-emerald-500 text-emerald-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -220,7 +224,7 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
             <div className="space-y-4">
               {/* Profile Photo / Avatar Chooser */}
               <div>
-                <label className="font-bold text-slate-300 block mb-2">Profile Photo / Store Logo</label>
+                <label className="text-xs font-bold text-slate-200 block mb-2">Profile Photo / Store Logo</label>
                 <div className="flex flex-wrap items-center gap-3">
                   {PRESET_AVATARS.map((url, idx) => (
                     <button
@@ -236,84 +240,88 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
                   ))}
                 </div>
 
-                <div className="mt-3 relative">
-                  <Camera className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <div className="mt-3 relative flex items-center">
+                  <Camera className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                   <input
                     type="url"
                     placeholder="Or paste custom image URL..."
                     value={photoUrl}
                     onChange={(e) => setPhotoUrl(e.target.value)}
-                    className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white placeholder:text-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Shop Manager Name *</label>
-                  <div className="relative">
-                    <User className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Shop Manager Name *</label>
+                  <div className="relative flex items-center">
+                    <User className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="text"
                       required
+                      placeholder="e.g. Rajesh Kumar"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Shop / Store Name *</label>
-                  <div className="relative">
-                    <Store className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Shop / Store Name *</label>
+                  <div className="relative flex items-center">
+                    <Store className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="text"
                       required
+                      placeholder="e.g. Ganapathi Super Market"
                       value={shopName}
                       onChange={(e) => setShopName(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 block mb-1">Bio / Store Summary</label>
+                <label className="text-xs font-bold text-slate-200 block mb-1.5">Bio / Store Summary</label>
                 <textarea
                   rows="3"
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
                   placeholder="Short description of your retail business..."
-                  className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Contact Email *</label>
-                  <div className="relative">
-                    <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Contact Email *</label>
+                  <div className="relative flex items-center">
+                    <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="email"
                       required
+                      placeholder="supermarket@gmail.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Contact Phone Number *</label>
-                  <div className="relative">
-                    <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Contact Phone Number *</label>
+                  <div className="relative flex items-center">
+                    <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="tel"
                       required
+                      placeholder="+91 98765 43210"
                       value={mobileNumber}
                       onChange={(e) => setMobileNumber(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -326,7 +334,7 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
             <div className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="font-bold text-slate-300 block mb-2">Theme Mode</label>
+                  <label className="text-xs font-bold text-slate-200 block mb-2">Theme Mode</label>
                   <div className="grid grid-cols-2 gap-2">
                     <button
                       type="button"
@@ -350,11 +358,11 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 block mb-2">Portal Language</label>
+                  <label className="text-xs font-bold text-slate-200 block mb-2">Portal Language</label>
                   <select
                     value={language}
                     onChange={(e) => setLanguage(e.target.value)}
-                    className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                   >
                     <option value="English">English</option>
                     <option value="Telugu">Telugu (తెలుగు)</option>
@@ -366,15 +374,15 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
               </div>
 
               <div className="pt-2 border-t border-slate-800">
-                <label className="font-bold text-slate-300 block mb-3 flex items-center gap-1.5">
+                <label className="text-xs font-bold text-slate-200 block mb-3 flex items-center gap-1.5">
                   <Bell className="w-4 h-4 text-emerald-400" />
                   Owner Notification Preferences
                 </label>
 
                 <div className="space-y-3">
-                  <label className="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-800 cursor-pointer">
+                  <label className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 cursor-pointer">
                     <div>
-                      <span className="font-extrabold text-white block">Low Stock Warnings</span>
+                      <span className="font-extrabold text-white text-xs block">Low Stock Warnings</span>
                       <span className="text-slate-400 text-[11px]">Notify when inventory falls below safety threshold</span>
                     </div>
                     <input
@@ -385,9 +393,9 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
                     />
                   </label>
 
-                  <label className="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-800 cursor-pointer">
+                  <label className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 cursor-pointer">
                     <div>
-                      <span className="font-extrabold text-white block">Customer Restock Demand Alerts</span>
+                      <span className="font-extrabold text-white text-xs block">Customer Restock Demand Alerts</span>
                       <span className="text-slate-400 text-[11px]">Receive alerts when customers subscribe for out-of-stock items</span>
                     </div>
                     <input
@@ -398,9 +406,9 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
                     />
                   </label>
 
-                  <label className="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-800 cursor-pointer">
+                  <label className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 cursor-pointer">
                     <div>
-                      <span className="font-extrabold text-white block">SMS Urgent Stock Notifications</span>
+                      <span className="font-extrabold text-white text-xs block">SMS Urgent Stock Notifications</span>
                       <span className="text-slate-400 text-[11px]">Send critical out-of-stock alerts to mobile phone</span>
                     </div>
                     <input
@@ -419,53 +427,53 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
           {activeTab === 'security' && (
             <div className="space-y-5">
               <div className="space-y-3">
-                <label className="font-bold text-slate-300 block flex items-center gap-1.5">
+                <label className="text-xs font-bold text-slate-200 block flex items-center gap-1.5">
                   <Lock className="w-4 h-4 text-emerald-400" />
                   Update Account Password
                 </label>
 
                 <div>
-                  <label className="text-slate-400 block mb-1">Current Password</label>
+                  <label className="text-xs font-semibold text-slate-400 block mb-1">Current Password</label>
                   <input
                     type="password"
                     placeholder="••••••••"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="text-slate-400 block mb-1">New Password</label>
+                    <label className="text-xs font-semibold text-slate-400 block mb-1">New Password</label>
                     <input
                       type="password"
                       placeholder="••••••••"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
 
                   <div>
-                    <label className="text-slate-400 block mb-1">Confirm New Password</label>
+                    <label className="text-xs font-semibold text-slate-400 block mb-1">Confirm New Password</label>
                     <input
                       type="password"
                       placeholder="••••••••"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full p-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div className="pt-2 border-t border-slate-800 space-y-3">
-                <label className="font-bold text-slate-300 block">Store Visibility & Privacy</label>
+                <label className="text-xs font-bold text-slate-200 block">Store Visibility & Privacy</label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-800 cursor-pointer">
+                <label className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 cursor-pointer">
                   <div>
-                    <span className="font-extrabold text-white block">Public Store Listing</span>
+                    <span className="font-extrabold text-white text-xs block">Public Store Listing</span>
                     <span className="text-slate-400 text-[11px]">Allow customers to view store stock catalog in Customer Web App</span>
                   </div>
                   <input
@@ -476,9 +484,9 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
                   />
                 </label>
 
-                <label className="flex items-center justify-between p-3 rounded-xl bg-slate-800/60 border border-slate-800 cursor-pointer">
+                <label className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700 cursor-pointer">
                   <div>
-                    <span className="font-extrabold text-white block">Display Manager Name</span>
+                    <span className="font-extrabold text-white text-xs block">Display Manager Name</span>
                     <span className="text-slate-400 text-[11px]">Show manager name on store header info</span>
                   </div>
                   <input
@@ -499,76 +507,80 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
               <div className="grid grid-cols-2 gap-3 p-3.5 rounded-2xl bg-slate-950 border border-slate-800">
                 <div>
                   <span className="text-slate-400 block text-[10px] uppercase font-bold">Store Account ID</span>
-                  <span className="font-mono text-emerald-400 font-bold truncate block">{currentUser?.uid || 'SHOP-98721'}</span>
+                  <span className="font-mono text-emerald-400 font-bold truncate block text-xs">{currentUser?.uid || 'SHOP-98721'}</span>
                 </div>
                 <div>
                   <span className="text-slate-400 block text-[10px] uppercase font-bold">Role</span>
-                  <span className="font-bold text-white">Shop Owner / Manager</span>
+                  <span className="font-bold text-white text-xs">Shop Owner / Manager</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Locality / City *</label>
-                  <div className="relative">
-                    <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Locality / City *</label>
+                  <div className="relative flex items-center">
+                    <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="text"
                       required
+                      placeholder="e.g. Kovada Road"
                       value={locality}
                       onChange={(e) => setLocality(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Operating Hours</label>
-                  <div className="relative">
-                    <Clock className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Operating Hours</label>
+                  <div className="relative flex items-center">
+                    <Clock className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="text"
+                      placeholder="7:00 AM - 11:00 PM"
                       value={openHours}
                       onChange={(e) => setOpenHours(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="font-bold text-slate-300 block mb-1">Full GPS Physical Address</label>
+                <label className="text-xs font-bold text-slate-200 block mb-1.5">Full GPS Physical Address</label>
                 <textarea
                   rows="2"
                   value={fullAddress}
                   onChange={(e) => setFullAddress(e.target.value)}
-                  className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                  className="w-full p-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">GSTIN / Tax License No.</label>
-                  <div className="relative">
-                    <FileText className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">GSTIN / Tax License No.</label>
+                  <div className="relative flex items-center">
+                    <FileText className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="text"
+                      placeholder="37ABCDE1234F1Z5"
                       value={gstin}
                       onChange={(e) => setGstin(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="font-bold text-slate-300 block mb-1">Official Website / Link</label>
-                  <div className="relative">
-                    <Globe className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <label className="text-xs font-bold text-slate-200 block mb-1.5">Official Website / Link</label>
+                  <div className="relative flex items-center">
+                    <Globe className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
                     <input
                       type="url"
+                      placeholder="https://cartly.app/store"
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
-                      className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                      className="w-full pl-11 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-sm font-semibold text-white placeholder:text-slate-400 leading-normal focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -581,14 +593,14 @@ export const OwnerProfileModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold transition"
+              className="px-5 py-2.5 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold shadow-lg shadow-emerald-600/30 transition flex items-center gap-2"
+              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/30 transition flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               Save Owner Profile
