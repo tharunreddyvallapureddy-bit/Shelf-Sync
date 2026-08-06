@@ -28,41 +28,21 @@ body {
 }
 
 .dark .glass-header {
-  background: rgba(15, 23, 42, 0.94) !important;
-  border-bottom: 1px solid rgba(30, 41, 59, 0.9) !important;
+  background: rgba(15, 23, 42, 0.94);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.9);
 }
 
-.dark .bg-white {
-  background-color: #0f172a !important;
-  color: #f8fafc !important;
-}
-
-.dark .text-slate-900, 
-.dark .text-slate-800, 
-.dark .text-slate-700 {
-  color: #f8fafc !important;
-}
-
-.dark .text-slate-600, 
-.dark .text-slate-500 {
-  color: #cbd5e1 !important;
-}
-
-.dark .text-slate-400 {
-  color: #94a3b8 !important;
-}
-
-.dark .border-slate-200, 
-.dark .border-slate-100 {
-  border-color: #1e293b !important;
+.dark .bg-slate-900, 
+.dark .bg-slate-950 {
+  color: #f8fafc;
 }
 
 .dark input, 
 .dark select, 
 .dark textarea {
-  background-color: #1e293b !important;
-  color: #ffffff !important;
-  border-color: #334155 !important;
+  background-color: #1e293b;
+  color: #ffffff;
+  border-color: #334155;
 }
 
 .product-card-hover {

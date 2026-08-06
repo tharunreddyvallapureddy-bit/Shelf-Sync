@@ -38,7 +38,7 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
               />
               <div>
                 <span className="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center gap-0.5">
-                  <span className="text-emerald-700">Cart</span>
+                  <span className="text-emerald-700 dark:text-emerald-400">Cart</span>
                   <span className="text-amber-500 font-black">ly</span>
                 </span>
               </div>
@@ -47,12 +47,12 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
             {/* Location Selector */}
             <button 
               onClick={onOpenLocationModal}
-              className="hidden lg:flex items-center gap-2 text-left px-3 py-1.5 rounded-xl hover:bg-slate-100 transition text-xs border border-slate-200"
+              className="hidden lg:flex items-center gap-2 text-left px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition text-xs border border-slate-200 dark:border-slate-700"
             >
-              <MapPin className="w-4 h-4 text-emerald-600 shrink-0" />
+              <MapPin className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
               <div className="max-w-[170px] truncate">
-                <span className="font-bold block text-slate-800">Delivery Location</span>
-                <span className="text-slate-500 truncate block text-[11px]">{userLocation.address}</span>
+                <span className="font-bold block text-slate-900 dark:text-slate-100">Delivery Location</span>
+                <span className="text-slate-500 dark:text-slate-400 truncate block text-[11px]">{userLocation.address}</span>
               </div>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
             </button>
@@ -61,25 +61,25 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
             <div className="relative">
               <button
                 onClick={() => setShowStoreDropdown(!showStoreDropdown)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-slate-800 border border-slate-200 transition"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-xs font-bold text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700 transition"
               >
-                <Store className="w-4 h-4 text-emerald-600" />
-                <span className="max-w-[120px] sm:max-w-[180px] truncate">
+                <Store className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span className="max-w-[120px] sm:max-w-[180px] truncate text-slate-900 dark:text-slate-100 font-extrabold">
                   {stores.length > 0 ? selectedStore.name : 'No registered shops'}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400 shrink-0" />
               </button>
 
               {showStoreDropdown && (
-                <div className="absolute left-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50 animate-fadeIn">
-                  <div className="px-4 py-2 border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+                <div className="absolute left-0 mt-2 w-80 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 py-2 z-50 animate-fadeIn">
+                  <div className="px-4 py-2 border-b border-slate-100 dark:border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
                     <span>Registered Stores</span>
-                    <span className="text-[10px] text-emerald-600 font-extrabold">Real Database</span>
+                    <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold">Real Database</span>
                   </div>
 
-                  <div className="max-h-72 overflow-y-auto divide-y divide-slate-100">
+                  <div className="max-h-72 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800">
                     {stores.length === 0 ? (
-                      <div className="p-4 text-center text-xs text-slate-500 font-medium">
+                      <div className="p-4 text-center text-xs text-slate-500 dark:text-slate-400 font-medium">
                         No registered shops found in Firestore database. Register a new shop to see it list here.
                       </div>
                     ) : (
@@ -90,15 +90,15 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
                             setSelectedStoreId(s.id);
                             setShowStoreDropdown(false);
                           }}
-                          className={`w-full text-left px-4 py-3 flex items-center justify-between hover:bg-emerald-50 transition ${
-                            s.id === selectedStoreId ? 'bg-emerald-50 text-emerald-800 font-bold' : 'text-slate-700'
+                          className={`w-full text-left px-4 py-3 flex items-center justify-between hover:bg-emerald-50 dark:hover:bg-emerald-950/50 transition ${
+                            s.id === selectedStoreId ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold' : 'text-slate-800 dark:text-slate-200'
                           }`}
                         >
                           <div>
-                            <div className="text-xs font-semibold">{s.name}</div>
-                            <div className="text-[11px] text-slate-400">{s.location}</div>
+                            <div className="text-xs font-bold text-slate-900 dark:text-white">{s.name}</div>
+                            <div className="text-[11px] text-slate-500 dark:text-slate-400">{s.location}</div>
                           </div>
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-300 dark:border-emerald-800">
                             {s.deliveryEta || '12 mins'}
                           </span>
                         </button>
@@ -116,24 +116,24 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
               <div className="relative">
                 <button
                   onClick={() => setShowUserDropdown(!showUserDropdown)}
-                  className="flex items-center gap-2 p-1.5 pr-3 rounded-2xl bg-white border border-slate-200 text-xs font-bold text-slate-800 hover:bg-slate-50 transition"
+                  className="flex items-center gap-2 p-1.5 pr-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-700 transition"
                 >
                   {currentUser.photoUrl ? (
                     <img src={currentUser.photoUrl} alt="Avatar" className="w-7 h-7 rounded-xl object-cover" />
                   ) : (
-                    <div className="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-700 font-extrabold flex items-center justify-center text-xs">
+                    <div className="w-7 h-7 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-extrabold flex items-center justify-center text-xs">
                       {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
                     </div>
                   )}
-                  <span className="max-w-[90px] truncate hidden md:inline">{currentUser.name || 'User'}</span>
+                  <span className="max-w-[90px] truncate hidden md:inline text-slate-900 dark:text-slate-100">{currentUser.name || 'User'}</span>
                   <ChevronDown className="w-3 h-3 text-slate-400" />
                 </button>
 
                 {showUserDropdown && (
-                  <div className="absolute right-0 mt-2 w-60 bg-white rounded-2xl shadow-2xl border border-slate-200 p-3 z-50 space-y-2 animate-fadeIn">
-                    <div className="pb-2 border-b border-slate-100">
-                      <span className="font-extrabold text-xs text-slate-900 block">{currentUser.name}</span>
-                      <span className="text-[11px] text-slate-400 block truncate">{currentUser.email}</span>
+                  <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-3 z-50 space-y-2 animate-fadeIn">
+                    <div className="pb-2 border-b border-slate-100 dark:border-slate-800">
+                      <span className="font-extrabold text-xs text-slate-900 dark:text-white block">{currentUser.name}</span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 block truncate">{currentUser.email}</span>
                     </div>
 
                     <button
@@ -141,7 +141,7 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
                         setShowUserDropdown(false);
                         if (onOpenProfile) onOpenProfile();
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-emerald-50 text-emerald-700 text-xs font-bold transition"
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-emerald-50 dark:hover:bg-emerald-950 text-emerald-700 dark:text-emerald-400 text-xs font-bold transition"
                     >
                       <User className="w-4 h-4" />
                       My Account & Profile
@@ -152,7 +152,7 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
                         logout();
                         setShowUserDropdown(false);
                       }}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-rose-50 text-rose-600 text-xs font-bold transition"
+                      className="w-full flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950 text-rose-600 dark:text-rose-400 text-xs font-bold transition"
                     >
                       <LogOut className="w-4 h-4" />
                       Sign Out
