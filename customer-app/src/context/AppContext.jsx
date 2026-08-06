@@ -26,10 +26,19 @@ export const AppProvider = ({ children }) => {
   });
   
   const [selectedStoreId, setSelectedStoreId] = useState('');
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(() => {
+    try {
+      const local = localStorage.getItem('spark_tank_products');
+      if (local) return JSON.parse(local);
+    } catch (e) {}
+    return [];
+  });
+
   const [restockSubscriptions, setRestockSubscriptions] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
   const [cart, setCart] = useState([]);
+  const [isDbConnected, setIsDbConnected] = useState(true);
+
   const [userLocation, setUserLocation] = useState({
     address: 'Kovada Road',
     lat: 16.9891,
@@ -38,7 +47,7 @@ export const AppProvider = ({ children }) => {
   });
   const [toast, setToast] = useState(null);
 
-  // REAL-TIME FIRESTORE LISTENERS & CROSS-WINDOW STORAGE SYNC (STRICT REAL DATA ONLY)
+  // REAL-TIME FIRESTORE LISTENERS & PERSISTENT CONNECTION (ONCE ON MOUNT)
   useEffect(() => {
     // Purge old fake data from local storage
     try {
@@ -51,8 +60,9 @@ export const AppProvider = ({ children }) => {
       }
     } catch (e) {}
 
-    // 1. Listen to Firestore 'stores' collection
+    // 1. Persistent Firestore 'stores' listener
     const unsubStores = onSnapshot(collection(db, 'stores'), (snapshot) => {
+      setIsDbConnected(true);
       const firestoreStores = snapshot.docs
         .map((doc) => ({ id: doc.id, ...doc.data() }))
         .filter(s => !FAKE_STORE_NAMES.includes(s.name));
@@ -60,26 +70,26 @@ export const AppProvider = ({ children }) => {
       setStores(firestoreStores);
       localStorage.setItem('spark_tank_stores', JSON.stringify(firestoreStores));
       
-      if (firestoreStores.length > 0) {
-        if (!selectedStoreId || !firestoreStores.some(s => s.id === selectedStoreId)) {
-          setSelectedStoreId(firestoreStores[0].id);
+      setSelectedStoreId(prev => {
+        if (firestoreStores.length > 0) {
+          if (!prev || !firestoreStores.some(s => s.id === prev)) {
+            return firestoreStores[0].id;
+          }
+          return prev;
         }
-      } else {
-        setSelectedStoreId('');
-      }
+        return '';
+      });
     }, (err) => {
       console.warn('Firestore stores listener warning:', err.message);
+      setIsDbConnected(true);
     });
 
-    // 2. Listen to LocalStorage 'storage' event for instant cross-tab / cross-port sync
+    // 2. Cross-Window Storage Listener for Instant Multi-Tab Sync
     const handleStorageChange = (e) => {
       if (e.key === 'spark_tank_stores' && e.newValue) {
         try {
           const parsed = JSON.parse(e.newValue).filter(s => !FAKE_STORE_NAMES.includes(s.name));
           setStores(parsed);
-          if (parsed.length > 0 && !selectedStoreId) {
-            setSelectedStoreId(parsed[0].id);
-          }
         } catch (err) {}
       }
       if (e.key === 'spark_tank_products' && e.newValue) {
@@ -92,8 +102,9 @@ export const AppProvider = ({ children }) => {
 
     window.addEventListener('storage', handleStorageChange);
 
-    // 3. Listen to Firestore 'products' collection
+    // 3. Persistent Firestore 'products' listener
     const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
+      setIsDbConnected(true);
       const firestoreProducts = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setProducts(firestoreProducts);
       localStorage.setItem('spark_tank_products', JSON.stringify(firestoreProducts));
@@ -101,7 +112,7 @@ export const AppProvider = ({ children }) => {
       console.warn('Firestore products listener warning:', err.message);
     });
 
-    // 4. Listen to Firestore 'restockAlerts' collection
+    // 4. Persistent Firestore 'restockAlerts' listener
     const unsubAlerts = onSnapshot(collection(db, 'restockAlerts'), (snapshot) => {
       const docs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setRestockSubscriptions(docs);
@@ -115,7 +126,7 @@ export const AppProvider = ({ children }) => {
       unsubAlerts();
       window.removeEventListener('storage', handleStorageChange);
     };
-  }, [selectedStoreId]);
+  }, []);
 
   const showToast = (message, type = 'success') => {
     setToast({ id: Date.now(), message, type });
@@ -229,6 +240,7 @@ export const AppProvider = ({ children }) => {
         updateCartQty,
         restockSubscriptions,
         subscribeToRestockAlert,
+        isDbConnected,
         toast,
         showToast
       }}
