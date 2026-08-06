@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Store, ShieldAlert, ChevronDown, LogOut, LogIn } from 'lucide-react';
-import { useApp } from '../context/AppContext';
+import { ShieldAlert, ChevronDown, LogOut, LogIn } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Header = ({ onOpenAuth }) => {
-  const { stores, selectedStoreId, setSelectedStoreId, selectedStore } = useApp();
   const { currentUser, logout } = useAuth();
-  const [showStoreDropdown, setShowStoreDropdown] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
 
   return (
@@ -14,6 +11,7 @@ export const Header = ({ onOpenAuth }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
           
+          {/* Brand Logo & Title */}
           <div className="flex items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-2 cursor-pointer">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-600/30">
@@ -29,52 +27,9 @@ export const Header = ({ onOpenAuth }) => {
                 </span>
               </div>
             </div>
-
-            <div className="relative">
-              <button
-                onClick={() => setShowStoreDropdown(!showStoreDropdown)}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-white border border-slate-700 transition"
-              >
-                <Store className="w-4 h-4 text-emerald-400" />
-                <span className="max-w-[140px] sm:max-w-[200px] truncate">
-                  {selectedStore ? selectedStore.name : 'My Registered Store'}
-                </span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-              </button>
-
-              {showStoreDropdown && (
-                <div className="absolute left-0 mt-2 w-72 bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 py-2 z-50 animate-fadeIn">
-                  <div className="px-4 py-2 border-b border-slate-800 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-                    Registered Shops in Database
-                  </div>
-                  {stores.length === 0 ? (
-                    <div className="p-4 text-center text-xs text-slate-400">
-                      No registered shops in database yet.
-                    </div>
-                  ) : (
-                    stores.map((s) => (
-                      <button
-                        key={s.id}
-                        onClick={() => {
-                          setSelectedStoreId(s.id);
-                          setShowStoreDropdown(false);
-                        }}
-                        className={`w-full text-left px-4 py-2.5 flex items-center justify-between hover:bg-slate-800 transition ${
-                          s.id === selectedStoreId ? 'bg-slate-800 text-emerald-400 font-bold' : 'text-slate-300'
-                        }`}
-                      >
-                        <div>
-                          <div className="text-xs font-semibold">{s.name}</div>
-                          <div className="text-[11px] text-slate-400">{s.location}</div>
-                        </div>
-                      </button>
-                    ))
-                  )}
-                </div>
-              )}
-            </div>
           </div>
 
+          {/* User Account Controls */}
           <div className="flex items-center gap-3">
             {currentUser ? (
               <div className="relative">
@@ -83,7 +38,7 @@ export const Header = ({ onOpenAuth }) => {
                   className="flex items-center gap-2 p-1.5 pr-3 rounded-2xl bg-slate-800 border border-slate-700 text-xs font-bold text-white hover:bg-slate-700 transition"
                 >
                   <div className="w-7 h-7 rounded-xl bg-emerald-950 text-emerald-300 font-extrabold flex items-center justify-center text-xs">
-                    {currentUser.name ? currentUser.name.charAt(0) : 'S'}
+                    {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'S'}
                   </div>
                   <span className="max-w-[100px] truncate hidden md:inline">{currentUser.name || 'Shop Owner'}</span>
                   <ChevronDown className="w-3 h-3 text-slate-400" />
