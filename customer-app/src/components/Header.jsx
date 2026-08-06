@@ -36,9 +36,9 @@ export const Header = ({ onOpenLocationModal, onOpenProfile, onOpenAuth }) => {
                 <Zap className="w-6 h-6 fill-current" />
               </div>
               <div>
-                <span className="text-xl font-extrabold tracking-tight flex items-center gap-1.5">
-                  <span className="text-emerald-700">Spark</span>
-                  <span className="text-amber-500 font-black">Stock</span>
+                <span className="text-xl font-extrabold tracking-tight flex items-center gap-0.5">
+                  <span className="text-emerald-700">Cart</span>
+                  <span className="text-amber-500 font-black">ly</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-800 block -mt-1">
                   Customer Web App

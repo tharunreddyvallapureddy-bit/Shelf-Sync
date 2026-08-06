@@ -108,9 +108,9 @@ export const LoginPage = () => {
           </div>
 
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center justify-center gap-1.5">
-              <span>Spark</span>
-              <span className="text-amber-400">Owner</span>
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center justify-center gap-1">
+              <span className="text-emerald-400">Cartly</span>
+              <span className="text-amber-400 font-black">Owner</span>
             </h1>
             <span className="text-xs uppercase font-extrabold tracking-widest text-emerald-400 block mt-0.5">
               Shop Owner Web Application
@@ -156,7 +156,7 @@ export const LoginPage = () => {
                   <input
                     type="text"
                     required
-                    placeholder="BlinkQuick Darkstore"
+                    placeholder="Ganapathi Super Market"
                     value={shopName}
                     onChange={(e) => setShopName(e.target.value)}
                     className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-xs font-semibold text-white placeholder:text-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
@@ -198,7 +198,7 @@ export const LoginPage = () => {
                     <input
                       type="text"
                       required
-                      placeholder="Indiranagar"
+                      placeholder="Kovada Road"
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
                       className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-xs font-semibold text-white placeholder:text-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
@@ -249,7 +249,7 @@ export const LoginPage = () => {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-700 bg-slate-800 text-xs font-semibold text-white placeholder:text-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-xs font-semibold text-white placeholder:text-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
               />
             </div>
           </div>
@@ -259,7 +259,7 @@ export const LoginPage = () => {
             disabled={loading}
             className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xl shadow-emerald-600/30 transition flex items-center justify-center gap-2 mt-2"
           >
-            <span>{loading ? 'Connecting to Firebase...' : isSignUp ? 'Register Shop Account' : 'Sign In to Shop Owner Portal'}</span>
+            <span>{loading ? (isSignUp ? 'Registering Shop...' : 'Signing In...') : isSignUp ? 'Register Shop Account' : 'Sign In to Cartly Owner'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>

@@ -95,9 +95,9 @@ export const LoginPage = () => {
           </div>
 
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center justify-center gap-1.5">
-              <span>Spark</span>
-              <span className="text-amber-400">Stock</span>
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight flex items-center justify-center gap-0.5">
+              <span className="text-emerald-400">Cart</span>
+              <span className="text-amber-400 font-black">ly</span>
             </h1>
             <span className="text-xs uppercase font-extrabold tracking-widest text-emerald-400 block mt-0.5">
               Customer Web Application
@@ -170,7 +170,7 @@ export const LoginPage = () => {
                   <input
                     type="text"
                     required
-                    placeholder="Indiranagar 100ft Road, Bengaluru"
+                    placeholder="Kovada Road, Kakinada"
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
                     className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-xs font-semibold text-white placeholder:text-slate-500 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
@@ -222,7 +222,7 @@ export const LoginPage = () => {
             disabled={loading}
             className="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs shadow-xl shadow-emerald-600/30 transition flex items-center justify-center gap-2 mt-2"
           >
-            <span>{loading ? 'Connecting to Firebase...' : isSignUp ? 'Register Customer Account' : 'Sign In to Customer Web App'}</span>
+            <span>{loading ? (isSignUp ? 'Creating Account...' : 'Signing In...') : isSignUp ? 'Register Customer Account' : 'Sign In to Cartly'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>

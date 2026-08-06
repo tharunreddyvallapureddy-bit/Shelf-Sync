@@ -18,8 +18,8 @@ export const Header = ({ onOpenAuth }) => {
                 <ShieldAlert className="w-6 h-6 fill-current" />
               </div>
               <div>
-                <span className="text-xl font-extrabold tracking-tight flex items-center gap-1.5">
-                  <span className="text-emerald-400">Spark</span>
+                <span className="text-xl font-extrabold tracking-tight flex items-center gap-1">
+                  <span className="text-emerald-400">Cartly</span>
                   <span className="text-amber-400 font-black">Owner</span>
                 </span>
                 <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 block -mt-1">
